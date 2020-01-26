@@ -8,11 +8,11 @@ namespace Vagrant.Game.Targeting {
 
 
         public void onNotTargetable() {
-            TargetManager.instance.removeTarget(this);
+            TargetManager.instance.RemoveTarget(this);
         }
 
         public void onTargetable() {
-            TargetManager.instance.addTarget(this);
+            TargetManager.instance.AddTarget(this);
         }
 
 

@@ -8,6 +8,8 @@ namespace Vagrant.Game.Targeting {
 
         string name { get; }
 
+        GameObject gameObject { get; }
+
         void onTargetable();
 
         void onNotTargetable();
