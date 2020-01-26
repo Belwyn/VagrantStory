@@ -14,6 +14,8 @@ namespace Vagrant.Game.Player {
 
         ThirdPersonUserControl _characterControl;
 
+        public bool debug = false;
+
         /*
 
         public void OnEnable() {
@@ -36,18 +38,21 @@ namespace Vagrant.Game.Player {
         //////// IPlayerActions implementation
 
         public void OnAttack(InputAction.CallbackContext context) {
-            Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<float>()}");
+            if (debug) 
+                Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<float>()}");
         }
 
         public void OnJump(InputAction.CallbackContext context) {
-            Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<float>()}");
+            if (debug)
+                Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<float>()}");
             if (_characterControl != null) {
                 _characterControl.m_Jump = context.ReadValue<float>() == 1;
             }
         }
 
         public void OnMove(InputAction.CallbackContext context) {
-            Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<Vector2>()}");
+            if (debug)
+                Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<Vector2>()}");
 
             if (_characterControl != null) {
                 Vector2 move = context.ReadValue<Vector2>();
