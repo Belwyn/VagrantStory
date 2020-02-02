@@ -3,18 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Vagrant.Input;
+using Vagrant.Game.Targeting;
 
 using UnityStandardAssets.Characters.ThirdPerson;
+
+
 
 namespace Vagrant.Game.Player {
     public class PlayerController : MonoBehaviour, MainInput.IPlayerActions{
 
 
-        MainInput mainInput;
+        //MainInput mainInput;
 
         ThirdPersonUserControl _characterControl;
 
         public bool debug = false;
+
+        public bool isAttacking { get; private set; }
+
+        Targeter _targeter;
 
         /*
 
@@ -33,13 +40,24 @@ namespace Vagrant.Game.Player {
 
         private void Awake() {
             _characterControl = GetComponentInChildren<ThirdPersonUserControl>();
+            _targeter = GetComponentInChildren<Targeter>();
+            _targeter.Deactivate();
         }
+
+
+
 
         //////// IPlayerActions implementation
 
         public void OnAttack(InputAction.CallbackContext context) {
             if (debug) 
                 Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<float>()}");
+            
+            if (!isAttacking) {
+                isAttacking = true;
+                _targeter.Activate();
+            }            
+
         }
 
         public void OnJump(InputAction.CallbackContext context) {
@@ -61,5 +79,13 @@ namespace Vagrant.Game.Player {
             }
         }
 
+        public void OnCancel(InputAction.CallbackContext context) {
+            if (debug)
+                Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<float>()}");
+            
+            isAttacking = false;
+            _targeter.Deactivate();
+
+        }
     }
 }
