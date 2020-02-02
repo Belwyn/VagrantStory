@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Vagrant.Game.Targeting {
+namespace Vagrant.Game.Core {
 
-    public interface ITargetable {
+    public interface ISelectable {
 
         string name { get; }
 
         GameObject gameObject { get; }
 
 
+        void onSelected();
 
-        void onTargetable();
-
-        void onNotTargetable();
+        void onUnselected();
 
 
-        void onTargeted();
-
+        void onSelectionConfirm();
     }
 
 }

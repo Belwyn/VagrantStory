@@ -9,13 +9,13 @@ namespace Vagrant.Game.Targeting {
 
     public class TargetManager : SingletonBehaviour<TargetManager> {
 
-        private List<ITargetable> _targets;
+        private List<BaseTarget> _targets;
 
         private bool _dirty = false;
 
         protected override void Awake() {
             base.Awake();
-            _targets = new List<ITargetable>();
+            _targets = new List<BaseTarget>();
         }
 
 
@@ -33,22 +33,22 @@ namespace Vagrant.Game.Targeting {
             // TODO
             string message = "Targets: \n";
             //string message = $"Targets: \n {string.Join("\n", _targets)}";
-            _targets.ForEach( t => { message += $"{t.name}"; });
+            _targets.ForEach( t => { message += $" {t.name} -"; });
 
             Debug.Log(message);
 
-            SelectableManager.instance.SetSelectables(_targets.ConvertAll( t => t.gameObject));
+            UITargetManager.instance.SetSelectables(_targets);
         }
 
 
-        public void AddTarget(ITargetable target) {
+        public void AddTarget(BaseTarget target) {
             if (!_targets.Contains(target)) {
                 _targets.Add(target);
                 _dirty = true;
             }
         }
         
-        public void RemoveTarget(ITargetable target) {
+        public void RemoveTarget(BaseTarget target) {
             if (_targets.Contains(target)) {
                 _targets.Remove(target);
                 _dirty = true;
