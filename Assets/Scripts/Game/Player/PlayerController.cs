@@ -46,6 +46,18 @@ namespace Vagrant.Game.Player {
 
 
 
+        private void TargetMode() {
+            isAttacking = true;
+            _targeter.Activate();
+            TimeManager.FreezeScale();
+        }
+
+        private void NormalMode() {
+            isAttacking = false;
+            _targeter.Deactivate();
+            TimeManager.NormalScale();
+        }
+
 
         //////// IPlayerActions implementation
 
@@ -54,8 +66,7 @@ namespace Vagrant.Game.Player {
                 Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<float>()}");
             
             if (!isAttacking) {
-                isAttacking = true;
-                _targeter.Activate();
+                TargetMode();
             }            
 
         }
@@ -82,10 +93,9 @@ namespace Vagrant.Game.Player {
         public void OnCancel(InputAction.CallbackContext context) {
             if (debug)
                 Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<float>()}");
-            
-            isAttacking = false;
-            _targeter.Deactivate();
 
+            NormalMode();
+            
         }
     }
 }
