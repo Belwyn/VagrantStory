@@ -19,6 +19,14 @@ namespace Vagrant.Game.Targeting {
         }
 
 
+        private void Start() {
+            GameManager.instance.targetManager = this;
+            //GameManager.instance.onTargetingMode.AddListener(RefreshTargets);
+            //GameManager.instance.onNormalMode.AddListener(RefreshTargets);
+
+        }
+
+
         private void Update() {
             
             if (_dirty) {

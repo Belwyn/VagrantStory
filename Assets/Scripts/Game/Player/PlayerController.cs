@@ -45,17 +45,31 @@ namespace Vagrant.Game.Player {
         }
 
 
+        private void Start() {
+            GameManager.instance.playerController = this;
+            GameManager.instance.onTargetingMode.AddListener(OnTargetMode);
+            GameManager.instance.onNormalMode.AddListener(OnNormalMode);
+        }
+
+
 
         private void TargetMode() {
-            isAttacking = true;
-            _targeter.Activate();
-            TimeManager.FreezeScale();
+            GameManager.instance.TargetingMode();
         }
 
         private void NormalMode() {
+            GameManager.instance.NormalMode();
+        }
+
+
+        private void OnTargetMode() {
+            isAttacking = true;
+            _targeter.Activate();
+        }
+
+        private void OnNormalMode() {
             isAttacking = false;
             _targeter.Deactivate();
-            TimeManager.NormalScale();
         }
 
 
