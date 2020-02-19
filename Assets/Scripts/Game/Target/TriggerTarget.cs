@@ -12,12 +12,12 @@ namespace Vagrant.Game.Targeting {
         // ITargetable
 
         private void OnTriggerEnter(Collider other) {
-            onTargetable();
+            //onTargetable();
         }
 
 
         private void OnTriggerExit(Collider other) {
-            onNotTargetable();
+            //onNotTargetable();
         }
 
         public override void onTargeted() {

@@ -25,18 +25,21 @@ namespace Vagrant.Game.Targeting {
 
 
         public void Activate() {
-            _trigger.enabled = true;
+            //_trigger.enabled = true;
             if (_visual != null)
                 _visual.SetActive(true);
+
+            _currentTargets.ForEach(t => t.GetComponent<BaseTarget>().onTargetable());
         }
 
 
         public void Deactivate() {
-            _trigger.enabled = false;
-            _currentTargets.ForEach(c => TargetManager.instance.RemoveTarget(c.GetComponent<BaseTarget>()));
-            _currentTargets.Clear();
+            //_trigger.enabled = false;
+            //_currentTargets.ForEach(c => TargetManager.instance.RemoveTarget(c.GetComponent<BaseTarget>()));
+            //_currentTargets.Clear();
             if (_visual != null)
                 _visual.SetActive(false);
+            _currentTargets.ForEach(t => t.GetComponent<BaseTarget>().onNotTargetable());
         }
 
 
