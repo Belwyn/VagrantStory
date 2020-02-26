@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Vagrant.Character;
 using Vagrant.Input;
 using Vagrant.Game.Targeting;
 
 using UnityStandardAssets.Characters.ThirdPerson;
 
 
-
 namespace Vagrant.Game.Player {
+
+    [RequireComponent(typeof(CharController))]
     public class PlayerController : MonoBehaviour, MainInput.IPlayerActions{
 
 
         //MainInput mainInput;
-
-        ThirdPersonUserControl _characterControl;
+        CharController _charController;
 
         public bool debug = false;
 
@@ -39,7 +40,7 @@ namespace Vagrant.Game.Player {
         */
 
         private void Awake() {
-            _characterControl = GetComponentInChildren<ThirdPersonUserControl>();
+            _charController = GetComponent<CharController>();
             _targeter = GetComponentInChildren<Targeter>();
             _targeter.Deactivate();
         }
@@ -88,20 +89,18 @@ namespace Vagrant.Game.Player {
         public void OnJump(InputAction.CallbackContext context) {
             if (debug)
                 Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<float>()}");
-            if (_characterControl != null) {
-                _characterControl.m_Jump = context.ReadValue<float>() == 1;
-            }
+
+            _charController.Jump(context.ReadValue<float>() == 1);
         }
 
         public void OnMove(InputAction.CallbackContext context) {
             if (debug)
                 Debug.Log($"{context.action.name} {context.phase} {context.ReadValue<Vector2>()}");
 
-            if (_characterControl != null) {
-                Vector2 move = context.ReadValue<Vector2>();
-                _characterControl.v = move.y;
-                _characterControl.h = move.x;
-            }
+            Vector2 move = context.ReadValue<Vector2>();
+            _charController.Move(move);
+
+
         }
 
         public void OnCancel(InputAction.CallbackContext context) {
