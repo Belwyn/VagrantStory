@@ -581,6 +581,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 634182780482396309, guid: c4703a7211b37404ba5f98ca1617a376,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.8633201
+      objectReference: {fileID: 0}
+    - target: {fileID: 1686781051911661145, guid: c4703a7211b37404ba5f98ca1617a376,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.86556935
+      objectReference: {fileID: 0}
     - target: {fileID: 6436378178188724041, guid: c4703a7211b37404ba5f98ca1617a376,
         type: 3}
       propertyPath: m_Name
@@ -879,7 +889,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 11
+  far clip plane: 20
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1018,7 +1028,7 @@ MonoBehaviour:
     FieldOfView: 60
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 11
+    FarClipPlane: 20
     Dutch: 0
     LensShift: {x: 0, y: 0}
   m_Transitions:

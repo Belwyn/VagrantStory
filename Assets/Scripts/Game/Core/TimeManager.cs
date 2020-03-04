@@ -12,6 +12,11 @@ namespace Vagrant.Game {
 
         static float _normalFixedDeltaTime;
 
+        protected override void Awake() {
+            base.Awake();
+            _normalFixedDeltaTime = Time.fixedDeltaTime;
+        }
+
         private void Start() {
 
             GameManager.instance.timeManager = this;
@@ -21,7 +26,6 @@ namespace Vagrant.Game {
 
         public static void FreezeScale() {
             Time.timeScale = _slowScaleFactor;
-            _normalFixedDeltaTime = Time.fixedDeltaTime;
             Time.fixedDeltaTime = _slowScalePhysicsFactor * Time.timeScale;
         }
 

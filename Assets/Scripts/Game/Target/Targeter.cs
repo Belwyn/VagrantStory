@@ -16,12 +16,20 @@ namespace Vagrant.Game.Targeting {
         [SerializeField]
         GameObject _visual;
 
+        private bool _isActive = false;
+
         private void Awake() {
             _trigger = GetComponent<Collider>();
             _trigger.isTrigger = true;
             _currentTargets = new List<Collider>();
         }
 
+
+        private void Update() {
+            if (_isActive) {
+                _currentTargets.ForEach(t => t.GetComponent<BaseTarget>().onTargetable());
+            }
+        }
 
 
         public void Activate() {
@@ -30,6 +38,7 @@ namespace Vagrant.Game.Targeting {
                 _visual.SetActive(true);
 
             _currentTargets.ForEach(t => t.GetComponent<BaseTarget>().onTargetable());
+            _isActive = true;
         }
 
 
@@ -40,6 +49,7 @@ namespace Vagrant.Game.Targeting {
             if (_visual != null)
                 _visual.SetActive(false);
             _currentTargets.ForEach(t => t.GetComponent<BaseTarget>().onNotTargetable());
+            _isActive = false;
         }
 
 
@@ -50,10 +60,9 @@ namespace Vagrant.Game.Targeting {
         }
 
         private void OnTriggerExit(Collider other) {
+            Debug.Log("trigger EXIT");
             if (_currentTargets.Remove(other)){
-                //
-                //
-                //
+                other.GetComponent<BaseTarget>().onNotTargetable();
             }
         }
 

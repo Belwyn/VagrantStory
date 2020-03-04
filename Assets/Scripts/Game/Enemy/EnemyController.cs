@@ -12,16 +12,20 @@ namespace Vagrant.Enemy {
 
         CharController _charController;
 
+        public bool aiEnabled = false;
+
         private void Awake() {
             _charController = GetComponent<CharController>();
         }
 
 
         private void Update() {
-            if (Random.value <= 0.02f)
-                _charController.Jump(true);
-            else
-                _charController.Jump(false);
+            if (aiEnabled) {
+                if (Random.value <= 0.02f)
+                    _charController.Jump(true);
+                else
+                    _charController.Jump(false);
+            }
         }
 
     }
