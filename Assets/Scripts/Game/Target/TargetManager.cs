@@ -58,6 +58,7 @@ namespace Vagrant.Game.Targeting {
         
         public void RemoveTarget(BaseTarget target) {
             if (_targets.Contains(target)) {
+                target.onNonHighlight();
                 _targets.Remove(target);
                 _dirty = true;
             }
