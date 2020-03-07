@@ -7,7 +7,7 @@ namespace Vagrant.Game {
     public class TimeManager : SingletonBehaviour<TimeManager> {
 
         const float _normalScaleFactor = 1f;
-        const float _slowScaleFactor = 0.025f;
+        const float _slowScaleFactor = 1f;//0.010f;
         const float _slowScalePhysicsFactor = 0.01f;
 
         static float _normalFixedDeltaTime;

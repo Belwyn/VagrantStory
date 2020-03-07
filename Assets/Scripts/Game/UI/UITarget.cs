@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Vagrant.Game.Core;
 using Vagrant.Game.Targeting;
@@ -21,7 +22,7 @@ namespace Vagrant.Game.UI {
 
         private void Awake() {
             button = GetComponent<Button>();
-            button.onClick.AddListener(onSelectionConfirm);
+            button.onClick.AddListener(onSelected);
         }
 
 
@@ -46,16 +47,16 @@ namespace Vagrant.Game.UI {
 
 
         // ISelectable
+        public void onHighlight() {
+            target.onHighlight();     
+        }
+
+        public void onNonHighlight() {
+            target.onNonHighlight();
+        }
+
         public void onSelected() {
-            
-        }
-
-        public void onUnselected() {
-            
-        }
-
-        public void onSelectionConfirm() {
-            target.onSelectionConfirm();
+            target.onSelected();
         }
 
 

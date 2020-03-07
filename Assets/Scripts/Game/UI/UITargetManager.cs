@@ -18,6 +18,8 @@ namespace Vagrant.Game.UI {
     public class UITargetManager : SingletonBehaviour<UITargetManager> {
 
         private List<UITarget> _selectables;
+        private UITarget _current;
+
 
         [SerializeField]
         private SelectablesPool _pool;
@@ -30,6 +32,31 @@ namespace Vagrant.Game.UI {
             _pool.Init(_poolTransform);
             _selectables = new List<UITarget>();
         }
+
+        void Update() {
+            GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
+
+            if (currentSelected != null && _selectables.Count > 0) {
+                UITarget newCurrent = _selectables.Single(s => s.button == currentSelected.GetComponent<Button>());
+                if (newCurrent != null && newCurrent != _current) {
+                    _current = newCurrent;
+                    UpdateHighlight();
+                }
+            }
+
+
+        }
+
+
+        private void UpdateHighlight() {
+            foreach(UITarget selectable in _selectables) {
+                if (selectable == _current)
+                    selectable.onHighlight();
+                else
+                    selectable.onNonHighlight();
+            }
+        }
+
 
         public void SetSelectables(List<BaseTarget> targets) {
 

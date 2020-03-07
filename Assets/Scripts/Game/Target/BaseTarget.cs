@@ -24,15 +24,15 @@ namespace Vagrant.Game.Targeting {
 
         // ISelectable
 
-        public virtual void onSelected() {
+        public virtual void onHighlight() {
             
         }
 
-        public void onSelectionConfirm() {
+        public virtual void onSelected() {
             onTargeted();
         }
 
-        public void onUnselected() {
+        public virtual void onNonHighlight() {
             
         }
     }

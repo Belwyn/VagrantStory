@@ -11,12 +11,12 @@ namespace Vagrant.Game.Core {
         GameObject gameObject { get; }
 
 
+        void onHighlight();
+
+        void onNonHighlight();
+
+
         void onSelected();
-
-        void onUnselected();
-
-
-        void onSelectionConfirm();
     }
 
 }
