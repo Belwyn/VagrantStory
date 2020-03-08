@@ -30,6 +30,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		bool m_Crouching;
 
 
+		public float timescale = 1;
+
 		void Start()
 		{
 			m_Animator = GetComponent<Animator>();
@@ -118,13 +120,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		void UpdateAnimator(Vector3 move)
 		{
 			// update the animator parameters
-			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
-			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime * timescale);
+			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime * timescale);
 			m_Animator.SetBool("Crouch", m_Crouching);
 			m_Animator.SetBool("OnGround", m_IsGrounded);
 			if (!m_IsGrounded)
 			{
-				m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
+				m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y * timescale);
 			}
 
 			// calculate which leg is behind, so as to leave that leg trailing in the jump animation
@@ -143,12 +145,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			// which affects the movement speed because of the root motion.
 			if (m_IsGrounded && move.magnitude > 0)
 			{
-				m_Animator.speed = m_AnimSpeedMultiplier;
+				m_Animator.speed = m_AnimSpeedMultiplier * timescale;
 			}
 			else
 			{
 				// don't use that while airborne
-				m_Animator.speed = 1;
+				m_Animator.speed = 1 * timescale;
 			}
 		}
 
@@ -180,7 +182,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		{
 			// help the character turn faster (this is in addition to root rotation in the animation)
 			float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
-			transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
+			transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime * timescale, 0);
 		}
 
 
@@ -188,13 +190,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		{
 			// we implement this function to override the default root motion.
 			// this allows us to modify the positional speed before it's applied.
-			if (m_IsGrounded && Time.deltaTime > 0)
+			if (m_IsGrounded && Time.deltaTime * timescale > 0)
 			{
-				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier * timescale) / Time.deltaTime;
 
 				// we preserve the existing y part of the current velocity.
 				v.y = m_Rigidbody.velocity.y;
-				m_Rigidbody.velocity = v;
+				m_Rigidbody.velocity = v * timescale;
 			}
 		}
 
