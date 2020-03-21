@@ -4,26 +4,31 @@ using System.Linq;
 using UnityEngine;
 using Belwyn.Utils;
 using Vagrant.Game.UI;
+using Vagrant.Character;
 
 namespace Vagrant.Game.Targeting {
 
     public class TargetManager : SingletonBehaviour<TargetManager> {
 
         private List<BaseTarget> _targets;
+        
+        private List<CharController> _affectedChars;
+        public List<CharController> affectedChars => _affectedChars;
+
 
         private bool _dirty = false;
 
         protected override void Awake() {
             base.Awake();
             _targets = new List<BaseTarget>();
+            _affectedChars = new List<CharController>();
         }
 
 
         private void Start() {
-            GameManager.instance.targetManager = this;
+            //GameManager.instance.targetManager = this;
             //GameManager.instance.onTargetingMode.AddListener(RefreshTargets);
             //GameManager.instance.onNormalMode.AddListener(RefreshTargets);
-
         }
 
 
@@ -65,6 +70,14 @@ namespace Vagrant.Game.Targeting {
             //SelectableManager.instance.RemoveSelectable(target.gameObject);
         }
 
+        public void AddAffectedCharacter(CharController charController) {
+            if (!_affectedChars.Contains(charController))
+                _affectedChars.Add(charController);
+        }
+
+        public void ClearAffectedCharacters() {
+            _affectedChars.Clear();
+        }
 
     }
 }

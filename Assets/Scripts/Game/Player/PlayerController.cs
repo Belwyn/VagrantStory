@@ -17,6 +17,7 @@ namespace Vagrant.Game.Player {
 
         //MainInput mainInput;
         CharController _charController;
+        public CharController charController => _charController;
 
         public bool debug = false;
 
@@ -50,6 +51,7 @@ namespace Vagrant.Game.Player {
             GameManager.instance.playerController = this;
             GameManager.instance.onTargetingMode.AddListener(OnTargetMode);
             GameManager.instance.onNormalMode.AddListener(OnNormalMode);
+            GameManager.instance.onActionMode.AddListener(OnNormalMode);
         }
 
 
@@ -73,6 +75,9 @@ namespace Vagrant.Game.Player {
             _targeter.Deactivate();
         }
 
+        private void OnActionMode() {
+            OnNormalMode();
+        }
 
         //////// IPlayerActions implementation
 

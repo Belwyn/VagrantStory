@@ -60,7 +60,7 @@ namespace Vagrant.Game.Targeting {
         }
 
         private void OnTriggerExit(Collider other) {
-            Debug.Log("trigger EXIT");
+            //Debug.Log("trigger EXIT");
             if (_currentTargets.Remove(other)){
                 other.GetComponent<BaseTarget>().onNotTargetable();
             }

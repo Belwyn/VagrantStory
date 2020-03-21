@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Vagrant.Game.Core;
+using Vagrant.Character;
 
 
 namespace Vagrant.Game.Targeting {
@@ -12,9 +13,13 @@ namespace Vagrant.Game.Targeting {
         public UnityEvent onHighlighted;
         public UnityEvent onNonHighlighted;
 
-
+        private CharController _charController;
 
         // ITargetable
+
+        private void Awake() {
+            _charController = GetComponentInParent<CharController>();
+        }
 
         private void OnTriggerEnter(Collider other) {
             //onTargetable();
@@ -28,7 +33,8 @@ namespace Vagrant.Game.Targeting {
         public override void onTargeted() {
             // TODO
             Debug.Log($"I've been targeted! {name}");
-            GameManager.instance.NormalMode();
+            TargetManager.instance.AddAffectedCharacter(_charController);
+            GameManager.instance.ActionMode();
         }
 
 

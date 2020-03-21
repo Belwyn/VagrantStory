@@ -7,6 +7,7 @@ using Belwyn.Utils;
 using Vagrant.Game.Player;
 using Vagrant.Game.Targeting;
 using Vagrant.Game.UI;
+using Vagrant.Character;
 
 
 namespace Vagrant.Game {
@@ -23,6 +24,8 @@ namespace Vagrant.Game {
         public UnityEvent onNormalMode;
         [SerializeField]
         public UnityEvent onTargetingMode;
+        [SerializeField]
+        public UnityEvent onActionMode;
 
 
 
@@ -30,6 +33,13 @@ namespace Vagrant.Game {
             base.Awake();
         }
 
+
+        public List<CharController> GetActionAffectedChars() {
+            List<CharController> list = new List<CharController>();
+            list.Add(playerController.charController);
+            list.AddRange(TargetManager.instance.affectedChars);
+            return list;
+        }
 
         public void TargetingMode() {
             onTargetingMode.Invoke();
@@ -40,7 +50,9 @@ namespace Vagrant.Game {
             onNormalMode.Invoke();
         }
 
-    
+        public void ActionMode() {
+            onActionMode.Invoke();
+        }
 
     }
 

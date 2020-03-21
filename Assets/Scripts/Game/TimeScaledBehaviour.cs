@@ -9,7 +9,10 @@ namespace Vagrant.Game {
 
 
         protected float _selfTimescale;
-        public float timescale => _selfTimescale;
+        public float timescale {
+            get { return _selfTimescale; }
+            set { _selfTimescale = value; }
+        }
 
         protected TimeStates _timeState;
 

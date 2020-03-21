@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Vagrant.Character;
 
 using Belwyn.Utils;
 using Belwyn.Events;
@@ -41,6 +42,8 @@ namespace Vagrant.Game {
             GameManager.instance.timeManager = this;
             GameManager.instance.onTargetingMode.AddListener(FreezeScale);
             GameManager.instance.onNormalMode.AddListener(NormalScale);
+            GameManager.instance.onActionMode.AddListener(ActionSetupScale);
+
 
             NormalScale();
         }
@@ -76,6 +79,15 @@ namespace Vagrant.Game {
             _normalScaleEvent.Invoke(_timeScales[TimeStates.NORMAL]);
         }
 
+
+        public void ActionSetupScale() {
+            _slowScaleEvent.Invoke(_timeScales[TimeStates.SLOW]);
+            List<CharController> affected = GameManager.instance.GetActionAffectedChars();
+            foreach (CharController character in affected) {
+                character.GetComponent<TimeScaledBehaviour>().timescale = _timeScales[TimeStates.NORMAL];
+            }
+
+        }
 
     }
 
