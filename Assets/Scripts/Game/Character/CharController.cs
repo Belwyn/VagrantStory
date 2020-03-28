@@ -15,10 +15,15 @@ namespace Vagrant.Character {
         TimeScaledBehaviour _timeScaledBehaviour;
         ThirdPersonCharacter _character;
 
+        bool _controlEnabled = true;
+
         protected void Awake() {
             _characterControl = GetComponentInChildren<ThirdPersonUserControl>();
             _character = GetComponentInChildren<ThirdPersonCharacter>();
             _timeScaledBehaviour = GetComponent<TimeScaledBehaviour>();
+
+            GameManager.instance.onNormalMode.AddListener(EnableControl);
+            GameManager.instance.onTargetingMode.AddListener(DisableControl);
         }
 
         // Start is called before the first frame update
@@ -35,15 +40,29 @@ namespace Vagrant.Character {
         }
 
 
+        public void EnableControl() {
+            _controlEnabled = true;
+        }
+
+        public void DisableControl() {
+            Jump(false);
+            Move(Vector2.zero);
+            _controlEnabled = false;
+        }
+
+
 
         public void Jump(bool value) {
-            _characterControl.m_Jump = value;
+            if (_controlEnabled)
+                _characterControl.m_Jump = value;
         }
 
 
         public void Move(Vector2 movement) {
-            _characterControl.v = movement.y;
-            _characterControl.h = movement.x;
+            if (_controlEnabled) {
+                _characterControl.v = movement.y;
+                _characterControl.h = movement.x;
+            }
         }
 
 

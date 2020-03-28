@@ -22,7 +22,7 @@ namespace Vagrant.Game.UI {
 
         private void Awake() {
             button = GetComponent<Button>();
-            button.onClick.AddListener(onSelected);
+            //button.onClick.AddListener(onSelected);
         }
 
 
