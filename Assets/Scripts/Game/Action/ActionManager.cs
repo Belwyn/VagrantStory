@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Belwyn.Utils;
+using Belwyn.Events;
 
 using Vagrant.Game;
+using Vagrant.Input;
+using UnityEngine.InputSystem;
 
 namespace Vagrant.Action {
     
     
-    public class ActionManager :  SingletonBehaviour<ActionManager>{
+    public class ActionManager :  SingletonBehaviour<ActionManager>, MainInput.IPlayerActions {
 
-        private Action _action;
-        public Action action { private get; set; }
+        private BaseAction _action;
+        public BaseAction action { private get; set; }
 
+        private bool _chainActivationEnabled = false;
+        private bool _chained = false;
+
+        [SerializeField]
+        public BoolEvent onChainActivationEnabled;
+        
 
         // TODO move it somewhere else
         [SerializeField]
-        private Action _placeholderAction;
+        private BaseAction _placeholderAction;
 
 
 
@@ -26,6 +35,12 @@ namespace Vagrant.Action {
         }
 
 
+        public void SetChainActivation(bool enable) {
+            Debug.LogWarning($"Chain Activation {enable}");
+            _chainActivationEnabled = enable;
+            onChainActivationEnabled.Invoke(enable);
+        }
+
         private void BeginAction() {
             Debug.LogWarning("ActionBegin");
             action = _placeholderAction;
@@ -33,9 +48,16 @@ namespace Vagrant.Action {
         }
 
         private void EndAction() {
-            Debug.LogWarning("Action Ended");
-            GameManager.instance.NormalMode();
-            action = null;
+            if (_chained) {
+                Debug.LogWarning("Action Chained");
+                _chained = false;
+                BeginAction();
+            }
+            else {
+                Debug.LogWarning("Action Ended");
+                GameManager.instance.NormalMode();
+                action = null;
+            }
         }
 
 
@@ -45,6 +67,30 @@ namespace Vagrant.Action {
             EndAction();
         }
 
+
+
+        // INPUT
+
+
+        public void OnMove(InputAction.CallbackContext context) {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnAttack(InputAction.CallbackContext context) {
+            
+
+        }
+
+        public void OnCancel(InputAction.CallbackContext context) {
+            
+        }
+
+        public void OnJump(InputAction.CallbackContext context) {
+            if (_chainActivationEnabled && context.ReadValue<float>() == 1) {
+                _chained = true;
+                SetChainActivation(false);
+            }
+        }
     }
 
 

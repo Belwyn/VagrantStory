@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Vagrant.Character;
 using Vagrant.Input;
 using Vagrant.Game.Targeting;
+using Vagrant.Action;
 
 using UnityStandardAssets.Characters.ThirdPerson;
 
@@ -24,6 +25,8 @@ namespace Vagrant.Game.Player {
         public bool isAttacking { get; private set; }
 
         Targeter _targeter;
+
+        public GameObject chainIndicator;
 
         /*
 
@@ -52,6 +55,9 @@ namespace Vagrant.Game.Player {
             GameManager.instance.onTargetingMode.AddListener(OnTargetMode);
             GameManager.instance.onNormalMode.AddListener(OnNormalMode);
             GameManager.instance.onActionMode.AddListener(OnNormalMode);
+
+            ActionManager.instance.onChainActivationEnabled.AddListener((b) => chainIndicator.SetActive(b));
+            chainIndicator.SetActive(false);
         }
 
 
