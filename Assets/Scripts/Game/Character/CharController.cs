@@ -8,36 +8,51 @@ using Vagrant.Game;
 
 namespace Vagrant.Character {
 
-    [RequireComponent(typeof(TimeScaledBehaviour))]
     public class CharController : MonoBehaviour {
 
-        ThirdPersonUserControl _characterControl;
-        TimeScaledBehaviour _timeScaledBehaviour;
-        ThirdPersonCharacter _character;
+        [SerializeField]
+        private Character _character;
 
-        bool _controlEnabled = true;
+        private bool _controlEnabled = true;
+
+        private bool _jump = false;
+        private Vector3 _move = new Vector3();
+
+        private float _v = 0.0f;
+        private float _h = 0.0f;
+        private Vector3 _forward = new Vector3();
 
         protected void Awake() {
-            _characterControl = GetComponentInChildren<ThirdPersonUserControl>();
-            _character = GetComponentInChildren<ThirdPersonCharacter>();
-            _timeScaledBehaviour = GetComponent<TimeScaledBehaviour>();
+            if (_character == null) _character = GetComponentInChildren<Character>();
+        }
 
+        void Start() {
             GameManager.instance.onNormalMode.AddListener(EnableControl);
             GameManager.instance.onTargetingMode.AddListener(DisableControl);
         }
 
-        // Start is called before the first frame update
-        void Start() {
 
-        }
-
-        // Update is called once per frame
         void Update() {
             //GetComponentInChildren<Animator>().speed = GetComponent<TimeScaledBehaviour>().timescale;
             //_character.m_MoveSpeedMultiplier = _timeScaledBehaviour.timescale;
             //_character.m_AnimSpeedMultiplier = _timeScaledBehaviour.timescale;
-            _character.timescale = _timeScaledBehaviour.timescale;
+            //_character.timescale = _timeScaledBehaviour.timescale;
         }
+
+
+        private void FixedUpdate() {
+
+            //if (cam) {
+            _forward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+            _move = _v * _forward + _h * Camera.main.transform.right;
+            //}
+            //else {
+            //_move = _v * Vector3.forward + _h * Vector3.right;
+            //}
+            _character.Move(_move, _jump);
+            _jump = false;
+        }
+
 
 
         public void EnableControl() {
@@ -54,15 +69,16 @@ namespace Vagrant.Character {
 
         public void Jump(bool value) {
             if (_controlEnabled)
-                _characterControl.m_Jump = value;
+                _jump = value;
         }
 
 
         public void Move(Vector2 movement) {
             if (_controlEnabled) {
-                _characterControl.v = movement.y;
-                _characterControl.h = movement.x;
+                _v = movement.y;
+                _h = movement.x;
             }
+
         }
 
 

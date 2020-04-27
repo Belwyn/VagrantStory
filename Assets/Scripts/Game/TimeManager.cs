@@ -16,7 +16,7 @@ namespace Vagrant.Game {
         }
 
         const float _normalScaleFactor = 1f;
-        const float _slowScaleFactor = 0.010f;
+        const float _slowScaleFactor = 0.01f;
         //const float _slowScalePhysicsFactor = 0.01f;
 
         readonly Dictionary<TimeStates, float> _timeScales = new Dictionary<TimeStates, float> {
@@ -83,9 +83,9 @@ namespace Vagrant.Game {
         public void ActionSetupScale() {
             _slowScaleEvent.Invoke(_timeScales[TimeStates.SLOW]);
             List<CharController> affected = GameManager.instance.GetActionAffectedChars();
-            foreach (CharController character in affected) {
+            /*foreach (CharController character in affected) {
                 character.GetComponent<TimeScaledBehaviour>().timescale = _timeScales[TimeStates.NORMAL];
-            }
+            }*/
 
         }
 

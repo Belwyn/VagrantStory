@@ -12,11 +12,11 @@ using UnityStandardAssets.Characters.ThirdPerson;
 
 namespace Vagrant.Game.Player {
 
-    [RequireComponent(typeof(CharController))]
     public class PlayerController : MonoBehaviour, MainInput.IPlayerActions{
 
 
         //MainInput mainInput;
+        [SerializeField]
         CharController _charController;
         public CharController charController => _charController;
 
@@ -24,7 +24,8 @@ namespace Vagrant.Game.Player {
 
         public bool isAttacking { get; private set; }
 
-        Targeter _targeter;
+        [SerializeField]
+        private Targeter _targeter;
 
         public GameObject chainIndicator;
 
@@ -44,9 +45,9 @@ namespace Vagrant.Game.Player {
         */
 
         private void Awake() {
-            _charController = GetComponent<CharController>();
-            _targeter = GetComponentInChildren<Targeter>();
-            _targeter.Deactivate();
+            Debug.Assert(_charController != null, $"CharController not assigned in playerController {name}");
+            if (_targeter == null) _targeter = GetComponentInChildren<Targeter>();
+            
         }
 
 
@@ -58,6 +59,7 @@ namespace Vagrant.Game.Player {
 
             ActionManager.instance.onChainActivationEnabled.AddListener((b) => chainIndicator.SetActive(b));
             chainIndicator.SetActive(false);
+            _targeter.Deactivate();
         }
 
 
